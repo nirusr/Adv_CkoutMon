@@ -44,11 +44,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        mapAllDeliveryPoints();
+        //mapAllDeliveryPoints();
         /*Intent data  = new Intent();
         data.putExtra("OK", "OK");
         setResult(RESULT_OK, data);
         finish();*/
+
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(1000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mapAllDeliveryPoints();
+                            }
+                        });
+                    }
+                }catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.start();
+
     }
 
 
