@@ -126,9 +126,24 @@
                 android:layout_weight="1"
                 android:text="Delivery Date: 20/12/15"
 
-                android:layout_span="4"
+                android:layout_span="3"
 
                 />
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="View Map"
+                    android:id="@+id/btnViewMap"
+                    android:textSize="8sp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:layout_gravity="right"
+                    android:onClick="btnViewMapClicked"
+
+                    />
+
+
 
         </TableRow>
 
@@ -151,6 +166,8 @@
 
         >
     </com.astuetz.PagerSlidingTabStrip>
+
+
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"

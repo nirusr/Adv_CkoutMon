@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -129,8 +131,7 @@ public class MainActivity extends AppCompatActivity {
                         //sch.awaitTermination(30, TimeUnit.SECONDS);
                         sch.shutdown();
                         Log.v("Sch coming down after ", filename);
-                        Intent intent  = new Intent(MainActivity.this, MapsActivity.class);
-                        startActivity(intent);
+
                     }
 
                 } catch (Exception e) {
@@ -241,6 +242,15 @@ public class MainActivity extends AppCompatActivity {
         super.onRestart();
     }
 
+
+
+    public void btnViewMapClicked(View v) {
+        Log.v("Button Clicked", v.findViewById(R.id.btnViewMap) + "");
+        Intent intent  = new Intent(this, MapsActivity.class);
+        startActivityForResult(intent, MapsActivity.MAPS_REQUEST_CODE);
+        //startActivity(intent);
+
+    }
 
 
 }

@@ -1,5 +1,6 @@
 package com.walmart.ckoutMonitor.activities;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +33,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private List<Postcode> postcodes;
+    public static final int MAPS_REQUEST_CODE= 900;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         mapAllDeliveryPoints();
+        /*Intent data  = new Intent();
+        data.putExtra("OK", "OK");
+        setResult(RESULT_OK, data);
+        finish();*/
     }
 
 
@@ -63,7 +69,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Add a marker in asda store and move the camera
         LatLng asdaStore = new LatLng(53.7888009, -1.5405516);
-        mMap.addMarker(new MarkerOptions().position(asdaStore).title("ASDA Edmonton Super Store"));
+        mMap.addMarker(new MarkerOptions().position(asdaStore).title("ASDA Edmonton Super Store\nDelivery Store"));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
 
@@ -126,5 +132,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
 
         }
+
     }
+
+
 }
