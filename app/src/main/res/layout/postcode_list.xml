@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <TableRow>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="City"
+                android:id="@+id/tvPostCodeCity"
+                android:layout_weight="3"
+                android:layout_gravity="left"
+
+              />
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="PostCode"
+                android:id="@+id/tvPostCode"
+                android:layout_weight="2"
+                android:layout_gravity="left"
+               />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="20"
+                android:id="@+id/tvPostCodeQty"
+                android:layout_weight="1"
+                android:layout_gravity="right"
+
+
+                />
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

@@ -1,0 +1,71 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.walmart.ckoutMonitor.fragments.StoreDetailFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ASDA Edmonton Super Store"
+        android:id="@+id/tvStoreName"
+        android:layout_alignParentTop="true"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="#4401"
+        android:paddingLeft="10dp"
+        android:id="@+id/tvStoreNumber"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/tvStoreName"
+        android:layout_toEndOf="@+id/tvStoreName" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Address: "
+        android:id="@+id/tvStoreAddress"
+        android:layout_below="@id/tvStoreName"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total Orders: "
+        android:id="@+id/tvLabelStoreOrderTotal"
+        android:layout_below="@id/tvStoreAddress"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="200"
+        android:id="@+id/tvStoreTotalOrder"
+        android:layout_alignBaseline="@+id/tvLabelStoreOrderTotal"
+        android:layout_toRightOf="@+id/tvLabelStoreOrderTotal"
+        android:layout_toEndOf="@+id/tvLabelStoreOrderTotal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total Order value $: "
+        android:id="@+id/tvLabelStoreOrderValue"
+        android:layout_marginLeft="30dp"
+        android:layout_below="@+id/tvStoreAddress"
+        android:layout_toRightOf="@+id/tvStoreTotalOrder"
+        android:layout_toEndOf="@+id/tvStoreTotalOrder" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1000.20"
+        android:id="@+id/tvStoreOrderValue"
+        android:layout_alignBaseline="@id/tvLabelStoreOrderValue"
+        android:layout_below="@+id/tvStoreAddress"
+        android:layout_toRightOf="@+id/tvLabelStoreOrderValue"
+        android:layout_toEndOf="@+id/tvLabelStoreOrderValue" />
+
+
+</RelativeLayout>
