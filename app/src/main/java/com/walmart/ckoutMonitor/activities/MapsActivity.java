@@ -182,7 +182,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             BitmapDescriptor defaultMarker =
                                     BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE);
 
-                            BitmapDescriptor customMarker = BitmapDescriptorFactory.fromResource(R.mipmap.house);
+                            BitmapDescriptor customMarker = BitmapDescriptorFactory.fromResource(R.drawable.uk_home);
 
 
                             //Marker marker = mMap.addMarker(new MarkerOptions().position(delPoint).title("#Of Orders:"+ postcode.getOrdersPerPostCode()));
