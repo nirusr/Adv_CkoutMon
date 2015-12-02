@@ -1,17 +1,23 @@
 package com.walmart.ckoutMonitor.activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.animation.BounceInterpolator;
 
 import com.activeandroid.query.Select;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -55,7 +61,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void run() {
                 try {
                     while (!isInterrupted()) {
-                        Thread.sleep(1000);
+                        Thread.sleep(3000);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -129,7 +135,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             double Dlat = Double.parseDouble(lat);
                             double Dlng = Double.parseDouble(lng);
                             LatLng delPoint = new LatLng(Dlat, Dlng);
-                            mMap.addMarker(new MarkerOptions().position(delPoint).title("#Of Orders:"+ postcode.getOrdersPerPostCode()));
+                            BitmapDescriptor defaultMarker =
+                                    BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE);
+
+                            BitmapDescriptor customMarker = BitmapDescriptorFactory.fromResource(R.drawable.house);
+
+
+                            Marker marker = mMap.addMarker(new MarkerOptions().position(delPoint).title("#Of Orders:"+ postcode.getOrdersPerPostCode()));
+                            mMap.addMarker(new MarkerOptions().position(delPoint).title("#Of Orders:" + postcode.getOrdersPerPostCode()).icon(customMarker));
+                            //dropPinEffect(marker);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -154,6 +168,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         }
 
+    }
+
+    private void dropPinEffect(final Marker marker) {
+        // Handler allows us to repeat a code block after a specified delay
+        final android.os.Handler handler = new android.os.Handler();
+        final long start = SystemClock.uptimeMillis();
+        final long duration = 1500;
+
+        // Use the bounce interpolator
+        final android.view.animation.Interpolator interpolator =
+                new BounceInterpolator();
+
+        // Animate marker with a bounce updating its position every 15ms
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                long elapsed = SystemClock.uptimeMillis() - start;
+                // Calculate t for bounce based on elapsed time
+                float t = Math.max(
+                        1 - interpolator.getInterpolation((float) elapsed
+                                / duration), 0);
+                // Set the anchor
+                marker.setAnchor(0.5f, 1.0f + 14 * t);
+
+                if (t > 0.0) {
+                    // Post this event again 15ms from now.
+                    handler.postDelayed(this, 15);
+                } else { // done elapsing, show window
+                    marker.showInfoWindow();
+                }
+            }
+        });
     }
 
 
