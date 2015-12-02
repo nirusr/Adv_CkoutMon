@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolygonOptions;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.walmart.ckoutMonitor.Helper.GeoCoderRestClient;
@@ -32,6 +33,9 @@ import org.json.JSONObject;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -40,6 +44,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private List<Postcode> postcodes;
     public static final int MAPS_REQUEST_CODE= 900;
+    int iterations = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,26 +61,64 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setResult(RESULT_OK, data);
         finish();*/
 
-        Thread t = new Thread() {
+
+        /*
+        //getting exception Synchronous ResponseHandler used in AsyncHttpClient. You should create your response handler in a looper thread or use SyncHttpClient instead
+        final ScheduledThreadPoolExecutor sch = (ScheduledThreadPoolExecutor) Executors.newScheduledThreadPool(1);
+
+        Runnable periodicMapRefresh = new Runnable() {
             @Override
             public void run() {
                 try {
-                    while (!isInterrupted()) {
-                        Thread.sleep(3000);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mapAllDeliveryPoints();
-                            }
-                        });
+                    if ( iterations <= 10) {
+                        Thread.sleep(5*1000);
+                        mapAllDeliveryPoints();
+                        iterations++;
+
+
+                    } else {
+                        sch.shutdown();
                     }
-                }catch (InterruptedException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         };
-        t.start();
 
+        sch.scheduleWithFixedDelay(periodicMapRefresh, 0, 1, TimeUnit.SECONDS);
+
+*/
+
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                try {
+
+
+                        while (!isInterrupted()) {
+                            Log.v("#of Map Refresh=", iterations + "");
+                            if (iterations <= 5) { //for demo purpose
+                                Thread.sleep(7000);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mapAllDeliveryPoints();
+                                        iterations++;
+                                    }
+                                });
+                            } else {
+                                Thread.currentThread().interrupt();
+                            }
+                        }
+
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+
+                }
+            }
+        };
+        t.start();
     }
 
 
@@ -96,7 +139,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Add a marker in asda store and move the camera
         LatLng asdaStore = new LatLng(53.7888009, -1.5405516);
-        mMap.addMarker(new MarkerOptions().position(asdaStore).title("ASDA Edmonton Super Store\nDelivery Store"));
+        BitmapDescriptor asdaMarker = BitmapDescriptorFactory.fromResource(R.mipmap.ic_asda);
+        mMap.addMarker(new MarkerOptions().position(asdaStore).title("ASDA Edmonton Super Store\nDelivery Store").icon(asdaMarker));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
 
@@ -123,7 +167,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        //Log.v("Response=", response.toString());
+                        Log.v("Response=", response.toString());
                         try {
                             JSONArray results = response.getJSONArray("results");
                             JSONObject geometry = results.getJSONObject(0).getJSONObject("geometry");
@@ -138,12 +182,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             BitmapDescriptor defaultMarker =
                                     BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE);
 
-                            BitmapDescriptor customMarker = BitmapDescriptorFactory.fromResource(R.drawable.house);
+                            BitmapDescriptor customMarker = BitmapDescriptorFactory.fromResource(R.mipmap.house);
 
 
-                            Marker marker = mMap.addMarker(new MarkerOptions().position(delPoint).title("#Of Orders:"+ postcode.getOrdersPerPostCode()));
+                            //Marker marker = mMap.addMarker(new MarkerOptions().position(delPoint).title("#Of Orders:"+ postcode.getOrdersPerPostCode()));
                             mMap.addMarker(new MarkerOptions().position(delPoint).title("#Of Orders:" + postcode.getOrdersPerPostCode()).icon(customMarker));
                             //dropPinEffect(marker);
+
+
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();

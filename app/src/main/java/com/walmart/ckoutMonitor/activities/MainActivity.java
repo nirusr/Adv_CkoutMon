@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                         System.out.println(filename);
                         System.out.println("\t delayTask Execution Time: "
                                 + fmt.format(new Date()));
-                        Thread.sleep(10 * 1000);
+                        Thread.sleep(5 * 1000);
                         System.out.println("\t delayTask End Time: "
                                 + fmt.format(new Date()));
                         loadData(filename);
