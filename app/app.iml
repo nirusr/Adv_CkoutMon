@@ -155,8 +155,8 @@
     <orderEntry type="library" exported="" name="jsr305-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="play-services-ads-8.3.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-appinvite-8.3.0" level="project" />
-    <orderEntry type="library" exported="" name="gson-2.4" level="project" />
     <orderEntry type="library" exported="" name="logging-interceptor-2.6.0" level="project" />
+    <orderEntry type="library" exported="" name="gson-2.4" level="project" />
     <orderEntry type="library" exported="" name="rxandroid-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="play-services-gcm-8.3.0" level="project" />
     <orderEntry type="library" exported="" name="design-23.1.1" level="project" />
