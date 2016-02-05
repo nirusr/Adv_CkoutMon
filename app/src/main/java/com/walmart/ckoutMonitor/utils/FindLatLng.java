@@ -62,6 +62,7 @@ public class FindLatLng extends AsyncTask<String, Void, Boolean> {
 
                             Log.v("Lat for ", delPostcode + "==" + lat);
                             Log.v("lng for ", delPostcode + "==" + lng);
+                            //Save Postcode Data
                             Postcode postcodeObj = new Postcode();
                             postcodeObj.setPostCode(delPostcode);
                             postcodeObj.setOrdersPerPostCode(1);
