@@ -140,59 +140,7 @@ public class LoadDataActivity extends AppCompatActivity {
             }
 
             new FindLatLng().execute(location, orderNumber, city);
-           /* //Insert PostCode
-            Postcode postCode = new Postcode();
-            postCode.setPostCode(location);
-            postCode.setOrdersPerPostCode(1);
-            postCode.setOrderNumber(orderNumber);
-            postCode.setCity(city);
-            postCode.setGpsLat("");
-            postCode.setGpsLng("");
-            Postcode existingPostCode = Postcode.getPostCodebyPostcd(postCode);
-            if (existingPostCode != null) {
-                existingPostCode.setOrdersPerPostCode(existingPostCode.getOrdersPerPostCode() + 1);
-                existingPostCode.save();
-            } else {
-                postCode.save();
 
-            }*/
-
-
-            //update lat and lng
-  /*          getJSONObj(new OnJSONResponseCallback() {
-                @Override
-
-                public void onJSONResponse(boolean success, JSONObject response) {
-                    Log.v("Google Res=", response.toString());
-
-                    if (success) {
-
-                        try {
-                            String lng = response.getString("lng");
-                            String lat = response.getString("lat");
-                            Log.v("lat/lng=", String.format("%s/%s", lat, lng));
-                            Log.v("location=", location);
-                            Postcode updPostCode = new Postcode();
-                            updPostCode = Postcode.selectField("Postcd", location);
-                            if ( updPostCode != null) {
-                                updPostCode.setGpsLat(lat);
-                                updPostCode.setGpsLng(lng);
-                                updPostCode.save();
-                                Postcode testUpdPcd = Postcode.selectField("Postcd", location);
-                                Log.v("updpostcode=", testUpdPcd.getGpsLat());
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-
-                    }
-                }
-            }, location);
-
-            Postcode testUpdPcd = Postcode.selectField("Postcd", location);
-*/
             //Insert Slot
             Slot slot = new Slot();
             slot.setOrdersPerSlot(1);
