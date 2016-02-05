@@ -19,6 +19,7 @@ import com.walmart.ckoutMonitor.model.Postcode;
 import com.walmart.ckoutMonitor.model.Product;
 import com.walmart.ckoutMonitor.model.Slot;
 import com.walmart.ckoutMonitor.model.Store;
+import com.walmart.ckoutMonitor.utils.FindLatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -138,28 +139,15 @@ public class LoadDataActivity extends AppCompatActivity {
 
             }
 
-
-            //Insert PostCode
+            new FindLatLng().execute(location, orderNumber, city);
+           /* //Insert PostCode
             Postcode postCode = new Postcode();
             postCode.setPostCode(location);
-         /*   if (gpsLocation != null) {
-                postCode.setGpsLat(gpsLocation.get(KEY_LAT));
-                postCode.setGpsLng(gpsLocation.get(KEY_LNG));
-            } else {
-                postCode.setGpsLat("");
-                postCode.setGpsLng("");
-
-            }
-*/
-
-
             postCode.setOrdersPerPostCode(1);
             postCode.setOrderNumber(orderNumber);
             postCode.setCity(city);
             postCode.setGpsLat("");
             postCode.setGpsLng("");
-            //Log.v("PostCode=", postCode.getPostCode());
-
             Postcode existingPostCode = Postcode.getPostCodebyPostcd(postCode);
             if (existingPostCode != null) {
                 existingPostCode.setOrdersPerPostCode(existingPostCode.getOrdersPerPostCode() + 1);
@@ -167,7 +155,7 @@ public class LoadDataActivity extends AppCompatActivity {
             } else {
                 postCode.save();
 
-            }
+            }*/
 
 
             //update lat and lng
@@ -309,7 +297,7 @@ public class LoadDataActivity extends AppCompatActivity {
     }
 
     public interface OnJSONResponseCallback {
-        public void onJSONResponse(boolean success, JSONObject response);
+        void onJSONResponse(boolean success, JSONObject response);
     }
 
     public void getJSONObj(final OnJSONResponseCallback callback, String postcode) {

@@ -163,6 +163,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 params.put("address", postcode.getPostCode());
                 final String city = postcode.getCity();
 
+                double Dlat = Double.parseDouble(postcode.getGpsLat());
+                double Dlng = Double.parseDouble(postcode.getGpsLng());
+                LatLng delPoint = new LatLng(Dlat, Dlng);
+                BitmapDescriptor defaultMarker =
+                        BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE);
+
+                BitmapDescriptor customMarker = BitmapDescriptorFactory.fromResource(R.drawable.uk_home);
+
+
+                //Marker marker = mMap.addMarker(new MarkerOptions().position(delPoint).title("#Of Orders:"+ postcode.getOrdersPerPostCode()));
+                mMap.addMarker(new MarkerOptions().position(delPoint).title("#Of Orders:" + postcode.getOrdersPerPostCode()).icon(customMarker));
+                //dropPinEffect(marker);
+
+
+                /*
                 GeoCoderRestClient.get("json", params, new JsonHttpResponseHandler() {
 
                     @Override
@@ -211,6 +226,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
                 });
+                */
             }
 
         }

@@ -23,45 +23,61 @@ public class FindLatLng extends AsyncTask<String, Void, Boolean> {
     public static final String BASE_URL = "https://maps.googleapis.com/maps/api/geocode/";
 
     @Override
-    protected Boolean doInBackground(String... postcodes) {
-        final String postcode = postcodes[0];
-        OkHttpClient client = new OkHttpClient();
-        //set logging level
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        client.interceptors().add(interceptor);
+    protected Boolean doInBackground(String... params) {
+        final String delPostcode = params[0];
+        final String delOrderNumber = params[1];
+        final String delCity = params[2];
 
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).
-                addCallAdapterFactory(RxJavaCallAdapterFactory.create()).client(client).build();
+        Postcode existingPostCode = Postcode.selectField("Postcd", delPostcode);
+        if (existingPostCode != null) {
+            existingPostCode.setOrdersPerPostCode(existingPostCode.getOrdersPerPostCode() + 1 );
+            existingPostCode.save();
+        } else {
+           OkHttpClient client = new OkHttpClient();
+            //set logging level
+            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            client.interceptors().add(interceptor);
 
-        ILatLngService apiService = retrofit.create(ILatLngService.class);
-        Observable<GoogleLatLng> call = apiService.getLatLng(postcode);
-        call.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread()).subscribe(
-                new Subscriber<GoogleLatLng>() {
-                    @Override
-                    public void onCompleted() {
+            Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).
+                    addCallAdapterFactory(RxJavaCallAdapterFactory.create()).client(client).build();
+            ILatLngService apiService = retrofit.create(ILatLngService.class);
+            Observable<GoogleLatLng> call = apiService.getLatLng(delPostcode);
+            call.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread()).subscribe(
+                    new Subscriber<GoogleLatLng>() {
+                        @Override
+                        public void onCompleted() {
 
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(GoogleLatLng googleLatLng) {
+                            double lat = googleLatLng.getResults().get(0).getGeometry().getLocation().getLat();
+                            double lng = googleLatLng.getResults().get(0).getGeometry().getLocation().getLng();
+
+                            Log.v("Lat for ", delPostcode + "==" + lat);
+                            Log.v("lng for ", delPostcode + "==" + lng);
+                            Postcode postcodeObj = new Postcode();
+                            postcodeObj.setPostCode(delPostcode);
+                            postcodeObj.setOrdersPerPostCode(1);
+                            postcodeObj.setOrderNumber(delOrderNumber);
+                            postcodeObj.setCity(delCity);
+                            postcodeObj.setGpsLat(lat + "");
+                            postcodeObj.setGpsLng(lng + "");
+                            postcodeObj.save();
+
+
+
+                        }
                     }
+            );
 
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(GoogleLatLng googleLatLng) {
-                        double lat = googleLatLng.getResults().get(0).getGeometry().getLocation().getLat();
-                        double lng = googleLatLng.getResults().get(0).getGeometry().getLocation().getLng();
-
-                        Log.v("Lat for " , postcode + "==" + lat );
-                        Log.v("lng for ", postcode + "==" + lng);
-
-
-                    }
-                }
-        );
-
-
+        }
 
         return true;
     }
