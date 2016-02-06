@@ -138,7 +138,7 @@ public class LoadDataActivity extends AppCompatActivity {
                 store.save();
 
             }
-
+            //Insert Location using async
             new FindLatLng().execute(location, orderNumber, city);
 
             //Insert Slot
